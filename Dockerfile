@@ -49,7 +49,8 @@ RUN apt-get update && \
         imagemagick \
         mupen64plus \
         nano \
-        ffmpeg
+        ffmpeg \
+        python-tk
 
 # Upgrade pip
 RUN pip install --upgrade pip 

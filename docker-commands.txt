@@ -1,0 +1,13 @@
+# Create container [Replace local path with your own gym-mupen64plus directory]
+sudo docker run -it \
+  --name test-gym-env \
+  -p 5900 \
+  --mount source=/home/andrew/Desktop/gym-mupen64plus,target=/src/gym-mupen64plus,type=bind \
+  --mount source=/home/andrew/Desktop/gym-mupen64plus/gym_mupen64plus/ROMs,target=/src/gym-mupen64plus/gym_mupen64plus/ROMs,type=bind \
+  bz/gym-mupen64plus:0.0.5 /bin/bash
+
+# Start container
+sudo docker start -i test-gym-env
+
+# Launch jupyter [Not working]
+jupyter notebook --ip=0.0.0.0 --port=8080
