@@ -12,8 +12,9 @@ sudo docker run -it \
 # Start container
 sudo docker start -i test-gym-env
 
-# Run PPO.py
+# Run PPO.py inside docker bash
 python PPO.py
 
-# Launch jupyter [Not working]
+# ---------------------------------------
+# Launch jupyter [DON'T RUN, NOT WORKING]
 jupyter notebook --ip=0.0.0.0 --port=8080
