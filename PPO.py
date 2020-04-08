@@ -1,6 +1,6 @@
 #!/bin/python
 # %%
-import gym, gym_mupen64plus, torch, cv2
+import gym, gym_mupen64plus, torch, cv2, time
 import numpy as np
 import torch.nn as nn
 from torch.distributions import Categorical
@@ -52,12 +52,12 @@ class ActorCritic(nn.Module):
         raise NotImplementedError
     def act(self, state, memory):
         if state.ndim == 3:
-            state = np.expand_dims(state, 0)
+            state = np.expand_dims(state, 0) # state has shape (1, 3, h, w)
         state = torch.from_numpy(state).float().to(device) 
         action_probs = self.action_layer(state)
         dist = Categorical(action_probs)
         action = dist.sample()
-        memory.states.append(state)
+        memory.states.append(state[0]) # state added to memory has shape (3, h, w)
         memory.actions.append(action)
         memory.logprobs.append(dist.log_prob(action))
         return action.item()
@@ -154,9 +154,10 @@ for i_episode in range(1, max_episodes+1):
     state = process_state(state)
     for t in range(max_timesteps):
         timestep += 1
+        time_start = time.time() # for calculating time / frame
         #
         # Running policy_old:
-        action = np.zeros(action_dim)
+        action = [0] * action_dim
         action[ppo.policy_old.act(state, memory)] = 1
         state, reward, done, _ = env.step(action)
         state = process_state(state)
@@ -186,13 +187,16 @@ for i_episode in range(1, max_episodes+1):
             break
         #
         # logging
-        if i_episode % log_interval == 0:
+        if i_episode % log_interval == 0 and t == 0:
             avg_length = int(avg_length/log_interval)
             running_reward = int((running_reward/log_interval))
             #
             print('Episode {} \t avg length: {} \t reward: {}'.format(i_episode, avg_length, running_reward))
             running_reward = 0
             avg_length = 0
+        # printing statistics
+        time_taken = time.time() - time_start
+        #print('TPF: %f' % time_taken)
 
 raw_input("Press enter to exit")
 env.close()
