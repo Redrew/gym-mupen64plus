@@ -156,7 +156,8 @@ for i_episode in range(1, max_episodes+1):
         timestep += 1
         #
         # Running policy_old:
-        action = ppo.policy_old.act(state, memory)
+        action = np.zeros(action_dim)
+        action[ppo.policy_old.act(state, memory)] = 1
         state, reward, done, _ = env.step(action)
         state = process_state(state)
         #
