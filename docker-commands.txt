@@ -1,5 +1,5 @@
 # Build docker image
-sudo docker build -t bz/gym-mupen64plus:0.0.5
+sudo docker build -t bz/gym-mupen64plus:0.0.5 .
 
 # Create container [Replace local path with your own gym-mupen64plus directory]
 sudo docker run -it \
@@ -13,7 +13,7 @@ sudo docker run -it \
 sudo docker start -i test-gym-env
 
 # Run PPO.py inside docker bash
-python PPO.py
+ipython -i PPO.py
 
 # ---------------------------------------
 # Launch jupyter [DON'T RUN, NOT WORKING]
