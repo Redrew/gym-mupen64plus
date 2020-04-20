@@ -1,7 +1,7 @@
 # gym-mupen64plus
 
 ## Configuring Smash
-CPU difficulty level, map and character selection is in Smash/discrete_env.py
+CPU difficulty level, map and character selection is in Smash/discrete_env.py and Smash/smash_env.py
 
 ## Environment
 ### Action Space
