@@ -12,7 +12,16 @@ CPU difficulty level, map and character selection is in Smash/discrete_env.py an
 [0, 1] RB  
 [0, 1] LB  
 [0, 1] Z  
-[0, 1] Z  
+[0, 1] C  
+
+#### Mapped Action Space
+0 - 8 Preset Joystick Movements  
+9 A  
+10 B  
+11 RB  
+12 LB  
+13 Z  
+14 C  
 
 ## Setup
 
