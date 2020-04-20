@@ -1,17 +1,8 @@
 # gym-mupen64plus
 
-This project is an [OpenAI Gym](https://github.com/openai/gym/) environment wrapper for the [Mupen64Plus](http://www.mupen64plus.org/) N64 emulator. The goal of this project is to provide a platform for reinforcement learning agents to be able to easily interface with N64 games using the OpenAI gym library. This should allow for easier adaptation of existing agents that have been built using the gym library to play Atari games, for example.
+## Configuring Smash
+CPU difficulty level, map and character selection is in Smash/discrete_env.py
 
-Currently, only MarioKart64 and SuperSmashBros have been wrapped, but the core environment has been built to support any game. This top-level README will be used to describe the basic setup instructions, architecture of the environment, etc. Each game that gets wrapped will have its own README file within its respective subdirectory. This top-level README will link to each of the games' README file as well.
-
-#### Thanks:
-Many of the core concepts for this wrapper were borrowed/adapted directly from [@kevinhughes27](https://github.com/kevinhughes27)'s fantastic [TensorKart](https://github.com/kevinhughes27/TensorKart) project (self-driving MarioKart with TensorFlow). A huge thanks goes out to him for inspiring the foundation of this project.
-
-Another big thanks to everyone who has contributed to the project so far. I appreciate the help, from the small typo/bug fixes to the large implementations.
-
-## Contributing
-
-Please create issues as you encounter them. Future work and ideas will be captured as issues as well, so if you have any ideas of things you'd like to see, please add them. Also, feel free to fork this repository and improve upon it. If you come up with something you'd like to see incorporated, submit a pull request. Adding support for additional games would be a great place to start. If you do decide to implement support for a game, please create an issue mentioning what game you are working on. This will help organize the project and prevent duplicate work.
 
 ## Setup
 
@@ -30,20 +21,6 @@ The easiest, cleanest, most consistent way to get up and running with this proje
     # Example:
     docker build -t bz/gym-mupen64plus:0.0.5 .
     ```
-
-    ### That's it!
-
-    ...wait... that's it??
-
-    Yup... Ah, the beauty of Docker.
-
-### Without Docker
-* :(
-  > It is possible to run without Docker, but there isn't a compelling reason to and it just introduces a significant amount of setup work and potential complications.
-  >
-  > **`Fair warning:`** I likely will ***not*** be testing manual setup or maintaining its documentation going forward so it may become stale over time.
-  >
-  > However, if you really do want to, here are the [old instructions](docs/manual_setup.md).
 
 ## Example Agents
 
@@ -75,24 +52,6 @@ raw_input("Press <enter> to exit... ")
 
 env.close()
 ```
-
-### AI Agent (supervised learning):
-The original inspiration for this project has now been updated to take advantage of this gym environment. It is an example of using supervised learning to train an AI Agent that is capable of interacting with the environment (Mario Kart). It utilizes the TensorFlow library for its machine learning. Check out TensorKart [here](https://github.com/kevinhughes27/TensorKart).
-
-
-### AI Agent (reinforcement learning):
-An adaptation of the A3C algorithm has been applied to this environment (Mario Kart) and is capable of training from scratch (zero knowledge) to successfully finish races. Check out that agent [here](https://github.com/bzier/universe-starter-agent/tree/mario-kart-agent).
-
-
-## Games
-
-*Links to ROM files will not be included here. Use your ninja skills as appropriate.*
-
-ROM files can be placed in `./gym_mupen64plus/ROMs/`.
-
-Here is a list of games that have been wrapped. Each game may support multiple 'modes' with different levels or missions configured. See each of the games' pages for more details.
-* [MarioKart64](gym_mupen64plus/envs/MarioKart64/README.md)
-* [Super Smash Bros](gym_mupen64plus/envs/Smash/README.md)
 
 
 ## Architecture
