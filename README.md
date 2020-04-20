@@ -3,6 +3,16 @@
 ## Configuring Smash
 CPU difficulty level, map and character selection is in Smash/discrete_env.py
 
+## Environment
+### Action Space
+[-128, 127] X Joystick  
+[-128, 127] Y Joystick  
+[0, 1] A  
+[0, 1] B  
+[0, 1] RB  
+[0, 1] LB  
+[0, 1] Z  
+[0, 1] Z  
 
 ## Setup
 
@@ -71,7 +81,6 @@ The core `Mupen64PlusEnv` class has been built to handle many of the details of 
         * A Button: value of 0 or 1
         * B Button: value of 0 or 1
         * RB Button: value of 0 or 1
-    * *Note:* certain game environments may choose to override this default action space to provide options more suited for the specific game (details should be noted in the respective game's README)
 
 #### Methods:
 * `_step(action)` handles taking the supplied action, passing it to the controller server, and reading the new `observation`, `reward`, and `end_episode` values.
@@ -99,26 +108,3 @@ When initialized, will start an HTTP Server listening on the specified port. The
 
 This class simply polls the emulator process to ensure it is still up and running. If not, it prints the emulator process's exit code. Eventually this will also cause the environment to shutdown since the heart of it just died.
 
-### Game Environments:
-
-Each game environment will be created in an appropriately named subdirectory within the `envs` directory. For example: `[...]/gym_mupen64plus/envs/MarioKart64`. The game's environment class must inherit from the base `Mupen64PlusEnv` class described above. This class should be imported in the top-level `__init__.py` file. Example:
-```python
-from gym_mupen64plus.envs.MarioKart64.mario_kart_env import MarioKartEnv
-```
-
-Each game should also have an `__init__.py` file which registers the game's environment(s) in `gym`. Example:
-```python
-from gym.envs.registration import register
-from gym_mupen64plus.envs.MarioKart64.track_envs import MarioKartLuigiRacewayEnv
-
-register(
-    id='Mario-Kart-Luigi-Raceway-v0',
-    entry_point='gym_mupen64plus.envs.MarioKart64:MarioKartLuigiRacewayEnv',
-    tags={
-        'mupen': True,
-        'cup': 'Mushroom',
-        'wrapper_config.TimeLimit.max_episode_steps': 100000,
-    },
-    nondeterministic=True,
-)
-```
