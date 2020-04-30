@@ -47,9 +47,9 @@ class SmashDiscreteEnv(SmashEnv):
 
     ENABLE_CHECKPOINTS = True
 
-    def __init__(self, my_character='pikachu', their_character='dk',
+    def __init__(self, my_character='pikachu', their_character='pikachu',
                  my_character_color='CUP', their_character_color='CLEFT',
-                 opponent_bot_level=10, map='DreamLand'):
+                 opponent_bot_level=3, map='DreamLand'):
         super(SmashDiscreteEnv, self).__init__(
             my_character=my_character, their_character=their_character,
             my_character_color=my_character_color,
