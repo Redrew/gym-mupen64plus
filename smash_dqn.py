@@ -92,7 +92,7 @@ Record = namedtuple('record', ['action', 'state', 'reward', 'done'])
 Transition = namedtuple('transition', ['state', 'action', 'next_state', 'reward', 'done'])
 
 class ExpBuffer:
-  def __init__(self, max_size = 10000):
+  def __init__(self, max_size = 30000):
     self.max_size = max_size
     self.records = []
     self.state_shape = None
