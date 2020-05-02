@@ -19,9 +19,14 @@ import matplotlib.animation as animation
 
 from collections import namedtuple
 import pickle
+from os import path
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+# %%
+version = input("Version: ")
+
+# %%
 def process_state(state):
     state = cv2.resize(state, (64, 64))
     state = np.transpose(state)
@@ -68,21 +73,22 @@ def save_video(buffer, epoch):
 
   Writer = animation.writers['ffmpeg']
   writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
-  ani.save('training_%i.mp4' % epoch, writer=writer)
+  ani.save('training%s_%i.mp4' % (version, epoch), writer=writer)
 
 def save_training(model, buffer):
-    torch.save(model.state_dict(), './DQN.pth')
+    torch.save(model.state_dict(), './DQN%s.pth' % version)
     #with open("buffer.pyobj", "w") as f:
     #    pickle.dump(buffer, f)
 
 def load_training(model):
-    model.load_state_dict(torch.load("./DQN.pth"))
+    if path.exists("./DQN%s.pth" % version):
+      model.load_state_dict(torch.load("./DQN%s.pth" % version))
     #with open("buffer.pyobj", "r") as f:
     #    buffer = pickle.load(f)
     return buffer
 
 def save_stats(args):
-    with open("statistics.pyobj", "a") as f:
+    with open("statistics%s.pyobj" % version, "a") as f:
         pickle.dump(args, f)
 
 
@@ -134,16 +140,32 @@ class ExpBuffer:
   
   def __len__(self): return len(self.records)
 
+
 def get_DQN(action_dim): 
-  return nn.Sequential(
-    nn.Conv2d(3, 16, 7, 2, 3), # 32, 32
-    nn.MaxPool2d(2), # 16, 16
-    nn.ReLU(),
-    nn.Conv2d(16, 64, 3, 2, 1), # 8, 8
-    nn.MaxPool2d(2), # 4, 4
-    nn.Flatten(), # 16
-    nn.Linear(4 * 4 * 64, action_dim)
-  )
+  if version == 3:
+    return nn.Sequential(
+      nn.Conv2d(3, 8, 3, 1, 1), # 64, 64
+      nn.ReLU(),
+      nn.Conv2d(8, 16, 3, 2, 1), # 32, 32
+      nn.ReLU(),
+      nn.Conv2d(16, 32, 3, 2, 1), # 16, 16
+      nn.ReLU(),
+      nn.Flatten(), # 16 * 16 * 32
+      nn.Linear(16 * 16 * 32, 1000),
+      nn.ReLU(),
+      nn.Linear(1000, action_dim)
+    )
+  else:
+    return nn.Sequential(
+      nn.Conv2d(3, 16, 7, 2, 3), # 32, 32
+      nn.MaxPool2d(2), # 16, 16
+      nn.ReLU(),
+      nn.Conv2d(16, 64, 3, 2, 1), # 8, 8
+      nn.MaxPool2d(2), # 4, 4
+      nn.Flatten(), # 16
+      nn.Linear(4 * 4 * 64, action_dim)
+    )
+
 
 def get_action(action_dim, state):
   if np.random.rand() < args.epsilon:
@@ -185,12 +207,13 @@ args.max_steps = 800
 args.epsilon = 0.1
 args.batch_size = 32
 args.gamma = 0.99
+args.buffer_size = 30000
 args.losses = []
 args.actions = []
 args.rewards = []
 args.reset = False
 
-buffer = ExpBuffer()
+buffer = ExpBuffer(args.buffer_size)
 
 env = gym.make('Smash-dk-v0')
 action_dim = 15
