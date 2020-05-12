@@ -50,10 +50,12 @@ RUN apt-get update && \
         mupen64plus \
         nano \
         ffmpeg \
-        python-tk
+        python-tk \
+        libjson-c-dev libjson-c2
 
 # Upgrade pip
 RUN pip install --upgrade pip 
+RUN pip install future ipython
 
 # install VirtualGL (provides vglrun to allow us to run the emulator in XVFB)
 # (Check for new releases here: https://github.com/VirtualGL/virtualgl/releases)

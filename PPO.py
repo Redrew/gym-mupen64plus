@@ -61,6 +61,7 @@ class ActorCritic(nn.Module):
         memory.actions.append(action)
         memory.logprobs.append(dist.log_prob(action))
         return action.item()
+        
     def evaluate(self, state, action):
         action_probs = self.action_layer(state)
         dist = Categorical(action_probs)

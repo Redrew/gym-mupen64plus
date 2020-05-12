@@ -36,7 +36,7 @@ class SmashEnv(Mupen64PlusEnv):
     __metaclass__ = abc.ABCMeta
 
     def __init__(
-            self, my_character='dk', their_character='dk',
+            self, my_character='dk', their_character='mario',
             my_character_color='CUP', their_character_color='CLEFT',
             opponent_bot_level=3, map='DreamLand'):
         # TODO: Make player number configurable in the future.
