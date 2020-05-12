@@ -1,11 +1,16 @@
 # gym-mupen64plus
 
-![](example.gif)
+<a href="url"><img src="example.gif" align="left" height="400" width="400" ></a>
 The DQN agent playing against in game AI. The agent is on the right.
 
 ## Configuring Smash
 CPU difficulty level, map and character selection is in Smash/smash_env.py
-
+<br />  
+<br />  
+<br />  
+<br />  
+<br />  
+<br />  
 ## Environment
 ### Action Space
 [-128, 127] X Joystick  
